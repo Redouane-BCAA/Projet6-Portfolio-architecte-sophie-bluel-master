@@ -31,6 +31,45 @@ function affichageTravaux(works) {
     }
 }
 
+function filters (works) { 
+    // on récupère le nom des catégories depuis l'api dans la varible categoriesName
+    let categoriesName = works.map(works => works.category.name)
+    console.log(categoriesName)
+    
+    // on supprime les doublons avec set
+    let categories = [...new Set(categoriesName)]
+    console.log(categories)
+    
+    // Partie création des boutons filtres
+    const filtersContainer = document.querySelector(".filters-container")
+
+    // Button tous qui affichera tout les projets test + parent
+    const allbtn = document.createElement("button")
+    allbtn.innerText = "Tous"
+    // ajout class btn pour css plus tard
+    allbtn.classList.add("btn")
+    filtersContainer.appendChild(allbtn)
+
+
+    // création des buttons dans une boucle en fonction des catégorie 
+    for (let i = 0; i < categories.length; i++) {
+        let categoriesBtn = document.createElement("button")
+        categoriesBtn.innerText = categories[i]
+        categoriesBtn.classList.add("btn")
+        filtersContainer.appendChild(categoriesBtn)
+        // Fonction qui permet le filtrage lors des selection des buttons
+        // categoriesBtn.addEventListener("click" , () => {
+        //     if( category === "Tous"){
+        //         affichageTravaux(works)
+        //     }
+        //     else {
+        //         affichageTravaux(works.filter(works => works.category.name === category))
+        //     }
+        // })
+    }
+}
+
+
 // Appel des travaux et affichage dans la gallery final 
 
 async function AffichageFinal() {
@@ -38,6 +77,7 @@ async function AffichageFinal() {
     const works = await appelTravaux()
     // on veut afficher la liste des works dans la page
     affichageTravaux(works)
+    filters(works)
 }
 
 AffichageFinal()
