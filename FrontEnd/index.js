@@ -53,20 +53,40 @@ function filters (works) {
 
     // création des buttons dans une boucle en fonction des catégorie 
     for (let i = 0; i < categories.length; i++) {
+
         let categoriesBtn = document.createElement("button")
         categoriesBtn.innerText = categories[i]
         categoriesBtn.classList.add("btn")
         filtersContainer.appendChild(categoriesBtn)
-        // Fonction qui permet le filtrage lors des selection des buttons
-        // categoriesBtn.addEventListener("click" , () => {
-        //     if( category === "Tous"){
-        //         affichageTravaux(works)
-        //     }
-        //     else {
-        //         affichageTravaux(works.filter(works => works.category.name === category))
-        //     }
-        // })
     }
+
+    // partie qui permet le filtrage lors des selection des buttons
+    // On selectionne tout les boutons qui on la classe btn
+    const btns = document.querySelectorAll(".btn")
+    // on ajoute un event listener sur les boutons
+    btns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            // ENFIN REUSSI JE VIDE LA GALERIE avant
+            const divGallery = document.querySelector(".gallery")
+            divGallery.innerHTML = ""; // Vider la galerie
+            // on récupère le nom de la catégorie sélectionnée
+            let categorieFilter = btn.innerText
+            console.log(categorieFilter)
+
+            // on récupère les projets qui correspondent à la catégorie sélectionnée
+            let filteredWorks = works.filter(works => works.category.name === categorieFilter)
+            console.log(filteredWorks)
+
+            if (categorieFilter === "Tous") {
+                filteredWorks = works;
+            } else {
+                filteredWorks = works.filter(work => work.category.name === categorieFilter);
+            }
+
+            // on affiche les projets correspondant à la catégorie sélectionnée
+            affichageTravaux(filteredWorks)
+        })
+    })
 }
 
 
