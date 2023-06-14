@@ -48,6 +48,7 @@ function filters (works) {
     allbtn.innerText = "Tous"
     // ajout class btn pour css plus tard
     allbtn.classList.add("btn")
+    allbtn.classList.add("active")
     filtersContainer.appendChild(allbtn)
 
 
@@ -66,9 +67,15 @@ function filters (works) {
     // on ajoute un event listener sur les boutons
     btns.forEach(btn => {
         btn.addEventListener("click", () => {
-            // ENFIN REUSSI JE VIDE LA GALERIE avant
+            // VIDEr LA GALERIE avant
             const divGallery = document.querySelector(".gallery")
-            divGallery.innerHTML = ""; // Vider la galerie
+            divGallery.innerHTML = "";
+
+            // test pour que le button reste en font vert une fois click
+            btns.forEach(btn => btn.classList.remove("active"))
+            btn.classList.add("active")
+            ////////////////////////////////////////////////////////////////////
+
             // on récupère le nom de la catégorie sélectionnée
             let categorieFilter = btn.innerText
             console.log(categorieFilter)
@@ -82,7 +89,6 @@ function filters (works) {
             } else {
                 filteredWorks = works.filter(work => work.category.name === categorieFilter);
             }
-
             // on affiche les projets correspondant à la catégorie sélectionnée
             affichageTravaux(filteredWorks)
         })

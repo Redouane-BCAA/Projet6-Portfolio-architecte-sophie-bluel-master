@@ -163,6 +163,10 @@ li:hover {
 	background-color: #1D6154;
 	color: white;
 }
+.active{
+	background-color: #1D6154;
+	color: white;
+}
 #contact {
 	width: 50%;
 margin: auto;
