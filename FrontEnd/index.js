@@ -96,6 +96,7 @@ function filters (works) {
 ////////////////////Affichage mode editeur///////////////
 
 async function affichageEditeurMode() {
+    const loginLink = document.querySelector(".login-link");
     const token = localStorage.getItem("token");
     const editorMode = document.querySelector("#editor-mode");
     const filterBtns = document.querySelectorAll(".btn");
@@ -111,13 +112,21 @@ async function affichageEditeurMode() {
         // on passe en display none les boutons de filtre
         filterBtns.forEach((filterBtn) => {
             filterBtn.style.display = "none";
+            
         });
 
-        // on affiche les éléments en flex
+        // on affiche les éléments du mode éditeur en flex
         editorElements.forEach((editorElement) => {
             editorElement.style.display = "flex";
         });
+
         editorMode.style.display = "flex";
+        // si on click sur loginLink on est déconnecté donc on retire le token du local storage et on rechage la parge
+        loginLink.textContent ="logout"
+        loginLink.addEventListener("click", () => {
+            localStorage.removeItem("token");
+            window.location.reload();
+        })
     }
 }
 
