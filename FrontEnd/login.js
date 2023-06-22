@@ -1,8 +1,9 @@
 
 async function login(){
     const loginForm = document.querySelector(".loginForm")
+    const error = document.querySelector("#error-message")
 
-        loginForm.addEventListener("submit", async (event) =>{
+    loginForm.addEventListener("submit", async (event) =>{
         // on empeche le rechargement de la page avec preventdefault
         event.preventDefault();
         // on récupère les données du formulaire dans une constante
@@ -21,17 +22,17 @@ async function login(){
         })
         .then(response => response.json())
         .then(data => {
-        // si la réponse contient un token donc l'authentification est réussi alors on stock les données dans le localStorage 
-        // et on renvois l'utilisateur sur la page index.html
-        if(data.token){
-            localStorage.setItem("token", data.token)
-            window.location.href = "index.html"
+            // si la réponse contient un token donc l'authentification est réussi alors on stock les données dans le localStorage 
+            // et on renvois l'utilisateur sur la page index.html
+            if(data.token){
+                localStorage.setItem("token", data.token)
+                window.location.href = "index.html"
             }else{
-                alert("les informations utilisateur / mot de passe ne sont pas correctes.")
-                }
-   
+                error.textContent = "Identifiant ou mot de passe incorrect"
+            }
+
+        })
     })
-})
 }
 
 login ()

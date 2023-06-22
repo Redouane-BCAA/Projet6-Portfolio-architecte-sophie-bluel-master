@@ -7,13 +7,90 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/2c34b2789d.js" crossorigin="anonymous"></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="index.js" defer></script>
 	<!-- FONT SYNE -->
 	<link href="https://fonts.googleapis.com/css2?family=Syne&display=swap" rel="stylesheet">
+	<!-- FONT WORK SANS -->
+	<link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
+	<div class="editor-banner" id="editor-mode" style="display: none;" >
+		<p class="editor-banner-content ">
+			<i class="fa-regular fa-pen-to-square fa-lg"></i>
+			Mode édition
+		</p>
+		<button class="editor-button">publier les changements</button>
+	
+	</div>
+	<aside id="Modal1" class="modal" aria-hidden="true" role="" aria-modal="false" style="display: none;">
+		<div class="modal-wrapper">
+			<p class="modal-close"><i class="fa-solid fa-xmark"></i></p>
+			<h3>Galerie photo</h3>
+			<div class="modal-gallery">
+				<figure>
+					<i class="fa-solid fa-trash-can trash modif-icon"></i>
+					<i class="fa-solid fa-arrows-up-down-left-right modif-arrow modif-icon"></i>
+					<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
+					<p>éditer</p>
+				</figure>
+				<figure>
+					<i class="fa-solid fa-trash-can trash modif-icon"></i>
+					<i class="fa-solid fa-arrows-up-down-left-right modif-arrow modif-icon"></i>
+					<img src="assets/images/appartement-paris-v.png" alt="Appartement Paris V">
+					<figcaption>éditer</figcaption>
+				</figure>
+				<figure>
+					<img src="assets/images/restaurant-sushisen-londres.png" alt="Restaurant Sushisen - Londres">
+					<figcaption>éditer</figcaption>
+				</figure>
+				<figure>
+					<img src="assets/images/la-balisiere.png" alt="Villa “La Balisiere” - Port Louis">
+					<figcaption>éditer</figcaption>
+				</figure>
+				<figure>
+					<img src="assets/images/structures-thermopolis.png" alt="Structures Thermopolis">
+					<figcaption>éditer</figcaption>
+				</figure>
+				<figure>
+					<img src="assets/images/appartement-paris-x.png" alt="Appartement Paris X">
+					<figcaption>éditer</figcaption>
+				</figure>
+				<figure>
+					<img src="assets/images/le-coteau-cassis.png" alt="Pavillon “Le coteau” - Cassis">
+					<figcaption>éditer</figcaption>
+				</figure>
+				<figure>
+					<img src="assets/images/villa-ferneze.png" alt="Villa Ferneze - Isola d’Elba">
+					<figcaption>éditer</figcaption>
+				</figure>
+				<figure>
+					<img src="assets/images/appartement-paris-xviii.png" alt="Appartement Paris XVIII">
+					<figcaption>éditer</figcaption>
+				</figure>
+				<figure>
+					<img src="assets/images/bar-lullaby-paris.png" alt="Bar “Lullaby” - Paris">
+					<figcaption>éditer</figcaption>
+				</figure>
+				<figure>
+					<img src="assets/images/hotel-first-arte-new-delhi.png" alt="Hotel First Arte - New Delhi">
+					<figcaption>éditer</figcaption>
+				</figure> 
+			</div>
+			<hr>
+			
+			<div class="gallery-modif-submit">
+
+				<button class="modal-btn">Ajouter une photo
+					<input type="file" style="display: none;">
+				</button>
+				<p class="delete-gallery">Supprimer la galerie</p>
+			</div>
+		</div>
+	</aside>
+	
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
@@ -29,8 +106,17 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
+			
+			<a class="editor-content" id="editor-element">
+				<i class="fa-regular fa-pen-to-square fa-lg"></i>
+				modifier
+			</a>
 		</figure>
 		<article>
+			<!-- <a class="editor-content">
+				<i class="fa-regular fa-pen-to-square fa-lg"></i>
+				modifier
+			</a> -->
 			<h2>Designer d'espace</h2>
 			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
@@ -38,7 +124,14 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="portfolio-title">
+			<h2>Mes Projets		
+			</h2>
+			<a href="#Modal1" class="editor-content" id="editor-element">
+				<i class="fa-regular fa-pen-to-square fa-lg"></i>
+				modifier
+			</a>
+		</div>
 		<div class="filters-container"></div>
 		<div class="gallery">
 			<!-- <figure>

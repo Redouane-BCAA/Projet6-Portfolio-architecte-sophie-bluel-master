@@ -86,8 +86,6 @@ function filters (works) {
 
             if (categorieFilter === "Tous") {
                 filteredWorks = works;
-            } else {
-                filteredWorks = works.filter(work => work.category.name === categorieFilter);
             }
             // on affiche les projets correspondant à la catégorie sélectionnée
             affichageTravaux(filteredWorks)
@@ -95,8 +93,38 @@ function filters (works) {
     })
 }
 
+////////////////////Affichage mode editeur///////////////
 
-// Appel des travaux et affichage dans la gallery final 
+async function affichageEditeurMode() {
+    const token = localStorage.getItem("token");
+    const editorMode = document.querySelector("#editor-mode");
+    const filterBtns = document.querySelectorAll(".btn");
+    const editorElements = document.querySelectorAll("#editor-element");
+
+    // on affecte le style display none aux éléments
+    editorMode.style.display = "none";
+    editorElements.forEach((editorElement) => {
+        editorElement.style.display = "none";
+    });
+
+    if (token) {
+        // on passe en display none les boutons de filtre
+        filterBtns.forEach((filterBtn) => {
+            filterBtn.style.display = "none";
+        });
+
+        // on affiche les éléments en flex
+        editorElements.forEach((editorElement) => {
+            editorElement.style.display = "flex";
+        });
+        editorMode.style.display = "flex";
+    }
+}
+
+
+
+
+// Affichage final 
 
 async function AffichageFinal() {
     // on veut récupérer la liste des works
@@ -104,6 +132,8 @@ async function AffichageFinal() {
     // on veut afficher la liste des works dans la page
     affichageTravaux(works)
     filters(works)
+    affichageEditeurMode()
 }
 
 AffichageFinal()
+
