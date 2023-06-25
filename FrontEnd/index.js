@@ -132,6 +132,7 @@ async function affichageEditeurMode() {
 //////////////////MODAL 1 VERSION OPTIMISE///////////////////// 
 const modalLink = document.querySelector(".modal-link")
 
+const divGallery = document.querySelector(".gallery")
 const modal = document.querySelector(".modal")
 const modalWrapper = document.querySelector(".modal-wrapper")
 const modalClose = document.querySelector(".modal-close")
@@ -147,6 +148,7 @@ modalLink.addEventListener("click", async (e) => {
     modal.style.display = "flex"
     // lors de l'ouverture de la modal on récupère les travaux et on affichera dans modalGallery
     modalGallery.innerHTML = ""
+    divGallery.innerHTML =""
     const works = await appelTravaux()
     works.forEach(work => {
 
@@ -174,7 +176,7 @@ modalLink.addEventListener("click", async (e) => {
         trashIcon.addEventListener("click", async (e) => {                   
 
             e.preventDefault()
-            e.stopPropagation()
+            e.stopPropagation()    // On récupère l'id du travail
             const workId = work.id 
             // On fait la requête à l'API
             await fetch(`http://localhost:5678/api/works/${workId}`, {
