@@ -5,13 +5,12 @@ async function appelTravaux() {
     console.log(works)
     return works
 }
-
+appelTravaux()
 
 // Function qui affiche les travaux dans la gallery DOM 
 function affichageTravaux(works) {
     for (let i = 0; i < works.length; i++) {
         const projet = works[i];
-
         const divGallery = document.querySelector(".gallery")
 
         // création balise figure qui represente un projet
@@ -130,12 +129,93 @@ async function affichageEditeurMode() {
     }
 }
 
+//////////////////MODAL 1 VERSION OPTIMISE///////////////////// 
+const modalLink = document.querySelector(".modal-link")
+
+const modal = document.querySelector(".modal")
+const modalWrapper = document.querySelector(".modal-wrapper")
+const modalClose = document.querySelector(".modal-close")
+const modalGallery = document.querySelector(".modal-gallery")
+const modalBtn = document.querySelector(".modal-btn")
+const trashDelete = document.querySelector(".trash") //icon trash pour supprimer un élément
+const deleteGallery = document.querySelector(".delete-gallery")
+
+// function pour afficher la modale quand on click sur le lien qui a la classe modal-link
+modalLink.addEventListener("click", async (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    modal.style.display = "flex"
+    // lors de l'ouverture de la modal on récupère les travaux et on affichera dans modalGallery
+    modalGallery.innerHTML = ""
+    const works = await appelTravaux()
+    works.forEach(work => {
+
+        const modalFigure = document.createElement("div")
+        modalFigure.classList.add("modal-figure")
+        modalGallery.appendChild(modalFigure)
+
+        const trashIcon = document.createElement("i");
+        trashIcon.classList.add("fa-solid", "fa-trash-can", "trash", "modif-icon");
+        modalFigure.appendChild(trashIcon);
+
+        const arrowIcon = document.createElement("i");
+        arrowIcon.classList.add("fa-solid", "fa-arrows-up-down-left-right", "modif-arrow", "modif-icon");
+        modalFigure.appendChild(arrowIcon);
+
+        const modalImg = document.createElement("img")
+        modalImg.src = work.imageUrl
+        modalImg.classList.add("modal-img")
+        modalFigure.appendChild(modalImg)
+
+        const modalfigcaption = document.createElement("figcaption")
+        modalfigcaption.innerHTML = "éditer"
+        modalFigure.appendChild(modalfigcaption)
+
+        trashIcon.addEventListener("click", async (e) => {                   
+
+            e.preventDefault()
+            e.stopPropagation()
+            const workId = work.id 
+            // On fait la requête à l'API
+            await fetch(`http://localhost:5678/api/works/${workId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+            })
+            .then(response => {
+                if (response.ok) {                                     
+                    modalFigure.remove()
+                     affichageTravaux()
+                    console.log("suppression réussie")
+                    
+                } else {
+                    console.log("suppression échouée")
+                }
+             })
+        })
+        
+    })
+
+})
+function hideModal(){
+    modal.style.display = "none";
+}
+modalClose.addEventListener("click", hideModal)
+modal.addEventListener("click", hideModal)
+modalWrapper.addEventListener("click", (e) => {
+    e.stopPropagation();
+});
+//////////////////////FIN MODAL1 VERSION OPTIMISE/////////////////////////////
+
+
 
 
 
 // Affichage final 
 
 async function AffichageFinal() {
+    console.log("coucou je suis la ")
     // on veut récupérer la liste des works
     const works = await appelTravaux()
     // on veut afficher la liste des works dans la page

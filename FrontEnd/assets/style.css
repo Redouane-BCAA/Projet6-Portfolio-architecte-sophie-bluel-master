@@ -49,13 +49,18 @@ table {
 	border-spacing: 0;
 }
 /** end reset css**/
-body {
+body{
+	margin:auto;
+	font-family: 'Work Sans' ;
+	font-size: 14px;
+}
+body .body-container {
 	position: relative;
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
-	
+	/* margin-top: 60px; le rajouter avec javascript */
 }
 
 .editor-banner{
@@ -327,6 +332,7 @@ footer nav ul {
 .modal-close{
 	font-size: 16px;
 	text-align: end;
+	cursor: pointer;
 }
 .modal-wrapper h3{
 	text-align: center;
@@ -341,28 +347,28 @@ footer nav ul {
 	column-gap: 7px ;
 	row-gap: 10px;
 }
-.modal-gallery figure{
+.modal-gallery .modal-figure{
 	position: relative;
 }
-.modal-gallery figure .modif-icon{
-	font-size: 7px;
+.modal-gallery div .modif-icon{
+	font-size: 8px;
 	background-color: black;
 	border-radius: 2px;
 	padding: 3px;
 	color: white; 
 }
-.modal-gallery figure .trash{
+.modal-gallery div .trash{
 	position: absolute;
 	top: 8px;
 	right:8px; 
 }
-.modal-gallery figure .modif-arrow{
+.modal-gallery div .modif-arrow{
 	position: absolute;
 	top: 8px;
 	right:25px; 
 	display: none;
 }
-.modal-gallery figure:hover .modif-arrow{
+.modal-gallery div:hover .modif-arrow{
 	display: block;
 }
 
@@ -394,6 +400,7 @@ width: 100%;
 	color:#fff;
 	padding: 7px 50px;
 	margin-bottom: 20px ;
+	cursor: pointer;
 }
 .delete-gallery{
 	color:#d65353;
