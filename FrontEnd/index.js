@@ -148,7 +148,6 @@ modalLink.addEventListener("click", async (e) => {
     modal.style.display = "flex"
     // lors de l'ouverture de la modal on récupère les travaux et on affichera dans modalGallery
     modalGallery.innerHTML = ""
-    divGallery.innerHTML =""
     const works = await appelTravaux()
     works.forEach(work => {
 
@@ -173,6 +172,7 @@ modalLink.addEventListener("click", async (e) => {
         modalfigcaption.innerHTML = "éditer"
         modalFigure.appendChild(modalfigcaption)
 
+        // FONCTION SUPPRESSION AU CLICK SUR LE TRASHICON
         trashIcon.addEventListener("click", async (e) => {                   
 
             e.preventDefault()
@@ -186,12 +186,25 @@ modalLink.addEventListener("click", async (e) => {
                 },
             })
             .then(response => {
-                if (response.ok) {                                     
+                if (response.ok) {
+                    //  On supprime l'élément de la modal
                     modalFigure.remove()
-                     affichageTravaux()
+                    // On vide la galerie principal
+                    divGallery.innerHTML =""
+                    // Récupère les travaux mis à jour sur l'API
+                    appelTravaux() 
+                    // Une fois la réponse on renvois les travaux mis à jour en tant que updateWorks 
+                    // et on affiche les travaux avec updateworks
+                    .then(updatedWorks => {
+                        affichageTravaux(updatedWorks);
+                    })
+                    .catch(error => {
+                        console.log("Erreur lors de la récupération des travaux :", error);
+                    });
                     console.log("suppression réussie")
                     
-                } else {
+                } 
+                else {
                     console.log("suppression échouée")
                 }
              })
@@ -200,6 +213,7 @@ modalLink.addEventListener("click", async (e) => {
     })
 
 })
+
 function hideModal(){
     modal.style.display = "none";
 }
@@ -217,7 +231,6 @@ modalWrapper.addEventListener("click", (e) => {
 // Affichage final 
 
 async function AffichageFinal() {
-    console.log("coucou je suis la ")
     // on veut récupérer la liste des works
     const works = await appelTravaux()
     // on veut afficher la liste des works dans la page
