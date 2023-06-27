@@ -330,14 +330,20 @@ footer nav ul {
 	padding: 35px;
 }
 .modal-close{
-	font-size: 16px;
-	text-align: end;
+	font-size: 20px;
+	float: right;
+	/* text-align: end; */
+	cursor: pointer;
+}
+.previous-arrow{
+	font-size: 20px;
+	float: left;
 	cursor: pointer;
 }
 .modal-wrapper h3{
 	text-align: center;
 	font-size: 26px;
-	margin-top: 15px;
+	margin-top: 35px;
 }
 
 .modal-gallery{
@@ -405,3 +411,101 @@ width: 100%;
 .delete-gallery{
 	color:#d65353;
 }
+/* MODAL ADD PHOTO */
+.add-image{
+	width: 80%;
+	height: 28%;
+	background-color: #E8F1F6 ;
+	border-radius: 3px;
+	margin: auto;
+	margin-top: 40px;
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+}
+.fa-image{
+	color: #B9C5CC;
+	font-size: 60px;
+	margin-bottom: 20px;
+}
+.add-image-btn{
+	color: #306685;
+	text-align: center;
+	font-size: 14px;
+	font-family: 'Work Sans', sans-serif;
+	font-weight: 700;
+	background: #CBD6DC;
+	border: none; 
+	border-radius: 60px;
+	padding: 10px 33px;
+	margin-bottom: 7px;
+}
+.add-image-format{
+	color: #444;
+	text-align: center;
+	font-size: 10px;
+	font-family: 'Work Sans', sans-serif;
+}
+.form-container{
+	width: 100%;
+	display: grid;
+	margin-right: 56px;
+	margin-left: 56px;
+	
+	
+}
+#uploadForm{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 80%;
+	
+}
+#uploadForm label{
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+#uploadForm label{
+	color: #3D3D3D;
+	font-size: 15px;
+	font-family: 'Work Sans', sans-serif;
+	font-weight: 600;
+}
+#uploadForm input, select{
+	height: 50px;
+	border: none;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	padding: 15px;
+	font-family: 'Work Sans', sans-serif;
+	color: #444444;
+	font-size: 15px;
+}
+#uploadForm select {
+	cursor: pointer;
+	margin-bottom: 47px;
+}
+.modal-add-project hr{
+	width: 80%;
+}
+.modal-add-btn{
+	width: 45%;
+	border-style: none;
+    background-color: #A7A7A7;
+    border: none;
+    border-radius: 60px;
+    font-family: 'Syne', sans-serif;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    padding: 12px 50px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.modal-add-btn-valide{
+	background: #1D6154;
+}
+
+
