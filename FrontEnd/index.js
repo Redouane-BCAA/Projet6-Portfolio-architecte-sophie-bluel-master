@@ -129,7 +129,7 @@ async function affichageEditeurMode() {
     }
 }
 
-//////////////////MODAL GALLERY///////////////////// 
+//////////////////PARTIE MODAL///////////////////// 
 const modalLink = document.querySelector(".modal-link")
 
 const divGallery = document.querySelector(".gallery")
@@ -149,11 +149,14 @@ const divAddImage = document.querySelector(".add-project-image")
 const addImageButton = document.querySelector(".add-image-btn")
 const uploadForm = document.getElementById("upload-form")
 const divProjectImage = modal.querySelector(".add-image");
+const modalAddBtn = document.querySelector(".modal-add-btn");
+
 
 // function qui créer les elements de la modalgallery 
 // en appelant les travaux API 
 // intègre le trashicon avec la function deleteproject
 async function modalGalleryElement() {
+    
     const works = await appelTravaux();
     works.forEach(work => {
         const modalFigure = document.createElement("div");
@@ -183,8 +186,9 @@ async function modalGalleryElement() {
         deleteProject(work.id, modalFigure);
       });
     });
-  }
+}
 
+// Function qui supprime les élément en récuperant l'id
 function deleteProject(workId, modalFigure) {
     fetch(`http://localhost:5678/api/works/${workId}`, {
         method: "DELETE",
@@ -212,7 +216,52 @@ function deleteProject(workId, modalFigure) {
         }
     });
 }
-// function pour afficher la modale quand on click sur le lien qui a la classe modal-link
+
+// function qui reset le formulaire (utlisé après requêtepost)
+function resetForm() {
+    // on remet les valeur du form par défaut 
+    // document.querySelector(".input-file").value = ""
+    document.getElementById("title").value = "";
+    document.getElementById("category").value = "default";
+    divAddImage.innerHTML = ""
+    divAddImage.style.display = "none"
+    modalAddBtn.classList.remove("modal-add-btn-valide")
+}
+
+// Function requête post pour envoyé de nouveau travaux
+function sendPictureToAPI() {
+    const title = document.getElementById("title").value;
+    const category = document.getElementById("category").value;
+    const file = document.querySelector(".input-file").files[0]        
+    console.log(title, category, file)
+
+    if (title.trim() === "" || category === "default") {
+        alert("Veuillez remplir tous les champs et ajouter une image.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("title", title);
+    formData.append("category", category);
+
+    // Envoi de la requête POST à l'API
+    fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,      
+        },
+        body: formData,
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Travail envoyé avec succès :");
+            resetForm()
+        }
+    })
+}
+
+// affichage de la modale quand on click sur l'élément' qui a la classe modal-link
 modalLink.addEventListener("click", async (e) => {
     e.preventDefault()
     // e.stopPropagation()
@@ -222,7 +271,6 @@ modalLink.addEventListener("click", async (e) => {
     await modalGalleryElement();
 
 })
-// //////////////////////FIN MODAL GALLERY/////////////////////////////
 
 // function pour la fermeture des la modal
 async function hideModal(){
@@ -239,8 +287,6 @@ galleryModalClose.addEventListener("click", hideModal)
 addModalClose.addEventListener("click", hideModal)
 modal.addEventListener("click", hideModal)
 
-
-
 modalWrapperGallery.addEventListener("click", (e) => {
     e.stopPropagation()
   });
@@ -248,12 +294,8 @@ modalWrapperGallery.addEventListener("click", (e) => {
 modalAddPhoto.addEventListener("click", (e)=>{
     e.stopPropagation()
 })
-// modalWrapperGallery.addEventListener("click", (e)=>{
-//     // e.preventDefault()
-//     e.stopPropagation()
-// })
 
-// //////////////////////Debut MODAL ADDPHOTO//////////////////////////
+////////////////////////Debut MODAL ADDPHOTO//////////////////////////
 
 // Affichage de la modalAddphoto au click sur le galleryBTN
 galleryBtn.addEventListener("click", (e) =>{
@@ -263,14 +305,19 @@ galleryBtn.addEventListener("click", (e) =>{
     modalAddPhoto.style.display = "block";
 })
 
-
-
-
 // ajout d'une image au click sur le addImageButton
 addImageButton.addEventListener("click", (e) =>{
     e.preventDefault();
+
+    // Supprimer tout les input existant
+    const inputFiles = document.querySelectorAll(".input-file");
+    inputFiles.forEach((inputFile) => {
+        inputFile.parentNode.removeChild(inputFile);
+    });
+
     // création d'un input pour importer une image
     const input = document.createElement("input");
+    input.classList.add("input-file")
     input.style.display = "none"
     input.type = "file";
     input.name = "image";
@@ -287,9 +334,6 @@ addImageButton.addEventListener("click", (e) =>{
             imageFile.src = URL.createObjectURL(file);
             divAddImage.appendChild(imageFile);
             divAddImage.style.display = "block"
-            // divProjectImage.querySelector("i").style.display = "none";
-            // divProjectImage.querySelector("button").style.display = "none";
-            // divProjectImage.querySelector("p").style.display = "none";
         }
 
         // ecouteru d'evenement sur les input si ils sont remplis le btnaddphoto à une nouvelle class
@@ -304,104 +348,23 @@ addImageButton.addEventListener("click", (e) =>{
                 const champsRemplis = inputTitle.value.trim() !== "" && inputCategory.value !== "default";
                 if (champsRemplis) {
                     modalAddBtn.classList.add("modal-add-btn-valide");
-                  } else {
-                    modalAddBtn.classList.remove("modal-add-btn-valide");
-                  }            })
-        })
-        
-
-
-        modalAddBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            // e.stopPropagation()
-            const title = document.getElementById("title").value;
-            console.log(title)
-            const category = document.getElementById("category").value;
-            console.log(category)
-            const file = input.files[0]        
-            console.log(file)
-
-            if (title.trim() === "" || category === "default") {
-                alert("Veuillez remplir tous les champs et ajouter une image.");
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append("image", file);
-            formData.append("title", title);
-            formData.append("category", category);
-
-            // Envoi de la requête POST à l'API
-            fetch("http://localhost:5678/api/works", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,      
-                },
-                body: formData,
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log("Travail envoyé avec succès :");
-                    // on remet les valeur du form par défaut 
-                    
-                    document.getElementById("title").value = "";
-                    document.getElementById("category").value = "default";
-
-                    divAddImage.innerHTML = ""
-                    divAddImage.style.display = "none"
-                    // Restaurer les éléments précédents
-                    // Supprimer le contenu de la div add-project
-                    // divProjectImage.innerHTML = ""; 
-                    
-                    // const uploadIcon = document.createElement("i");
-                    // uploadIcon.classList.add("fa-regular", "fa-image");
-
-                    // const addButton = document.createElement("button");
-                    // addButton.classList.add("add-image-btn");
-                    // addButton.textContent = "Ajouter une photo";
-
-                    // const formatInfo = document.createElement("p");
-                    // formatInfo.classList.add("add-image-format");
-                    // formatInfo.textContent = "jpg, png : 4mo max";
-
-                    
-
-                    // divProjectImage.appendChild(uploadIcon);
-                    // divProjectImage.appendChild(addButton);
-                    // divProjectImage.appendChild(formatInfo);
-
-                    // const input = document.createElement("input");
-                    // input.style.display = "none"
-                    // input.type = "file";
-                    // input.name = "image";
-                    // input.accept = ".jpg, .png";
-                    // uploadForm.appendChild(input)
-                    // input.click();
-
-                    // on renvois vers la modalwrappergallery et on actualise la modalwrappergallery avec les nouveau projets envoyés
-                    // modalWrapperGallery.style.display = "block";
-                    // modalAddPhoto.style.display = "none";
-                    // // On vide la modalGallery
-                    // modalGallery.innerHTML = "";
-
-                    // // On récupère les travaux mis à jour depuis l'API
-                    // modalGalleryElement()
-
-                    // // On affiche les travaux mis à jour
-                    // affichageTravaux(modalGalleryElement); 
+                } else {
+                modalAddBtn.classList.remove("modal-add-btn-valide");
                 }
             })
-        
-            .catch((error) => {
-                console.error("Erreur lors de l'envoi du travail :", error);
-            });
-            
         })
     })
 });
 
+// requête post au click sur le modalAddBtn pour envoyé les nouveaux projets
+modalAddBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    // e.stopPropagation()
+    await sendPictureToAPI()
+})
+
 // au click sur previousarrow en revient sur la modal wrapper gallery
-previousArrow.addEventListener("click", (e) =>{
+previousArrow.addEventListener("click", async (e) =>{
     e.preventDefault();
     modalAddPhoto.style.display = "none";
     modalWrapperGallery.style.display = "";
@@ -409,16 +372,12 @@ previousArrow.addEventListener("click", (e) =>{
     modalGallery.innerHTML = "";
 
     // On récupère les travaux mis à jour depuis l'API
-    modalGalleryElement()
+    await modalGalleryElement()
 
     // On affiche les travaux mis à jour
     affichageTravaux(modalGalleryElement);  
 })
 ////////////////////FIN MODAL ADDPHOTO////////////////////////////
-
-
-
-
 
 
 // Affichage final 
