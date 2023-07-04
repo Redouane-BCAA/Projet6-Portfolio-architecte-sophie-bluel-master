@@ -27,9 +27,9 @@
 	</div>
 	<div class="body-container">
 
-		<aside id="Modal1" class="modal" aria-hidden="true" role="" aria-modal="false" style="display: flex;" >
-			<div class="modal-wrapper" style="display: none;">
-				<p class="modal-close"><i class="fa-solid fa-xmark"></i></p>
+		<aside id="Modal1" class="modal" aria-hidden="true" role="" aria-modal="false" style="display: none;" >
+			<div class="modal-wrapper modal-wrapper-gallery" >
+				<p class="modal-close gallery-modal-close"><i class="fa-solid fa-xmark"></i></p>
 				<h3>Galerie photo</h3>
 				<div class="modal-gallery">
 					
@@ -38,7 +38,7 @@
 				
 				<div class="gallery-modif-submit">
 	
-					<button class="modal-btn">Ajouter une photo
+					<button class="modal-gallery-btn">Ajouter une photo
 						<input type="file" style="display: none;">
 					</button>
 					<p class="delete-gallery">Supprimer la galerie</p>
@@ -46,22 +46,22 @@
 			</div>
 
 
-			<div class="modal-add-project modal-wrapper">
-				<i class="fa-solid fa-arrow-left previous-arrow"></i>
-				<p class="modal-close"><i class="fa-solid fa-xmark"></i></p>
+			<div class="modal-wrapper modal-add-project" style="display: none;">
+				<i class="fa-solid fa-arrow-left" id="previous-arrow"></i>
+				<p class="modal-close add-modal-close"><i class="fa-solid fa-xmark"></i></p>
 				<h3>Ajout photo</h3>
 				<div class="add-image"> 
-					<div class="add-project-image">
+					<div class="add-project-image" style="display: none;">
+						<!-- <img src="./assets/images/abajour-tahina.png" alt=""> -->
 					</div>
-					
-					<i class="fa-regular fa-image"></i>
-					<button class="add-image-btn ">+ Ajouter photo</button>
-					<p class="add-image-format">jpg, png : 4mo max</p>
+						<i class="fa-regular fa-image"></i>
+						<button class="add-image-btn " >+ Ajouter photo</button>
+						<p class="add-image-format">jpg, png : 4mo max</p>
 					
 				</div>
 				<div class="form-container">
 
-					<form id="uploadForm"  enctype="multipart/form-data">
+					<form id="upload-form"  enctype="multipart/form-data">
 						<label for="title">Titre</label>
 						<input type="text" name="title" id="title">
 						<label for="category">Catégorie</label>

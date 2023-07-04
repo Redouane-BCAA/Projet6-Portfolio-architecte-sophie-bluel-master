@@ -328,6 +328,10 @@ footer nav ul {
 	background-color: #fff;
 	border-radius: 10px;
 	padding: 35px;
+	
+}
+.modal-wrapper-gallery{
+	overflow: auto;
 }
 .modal-close{
 	font-size: 20px;
@@ -352,6 +356,7 @@ footer nav ul {
 	grid-template-columns: repeat(5, minmax(15%, 1fr)); /* Ajoutez cette ligne */
 	column-gap: 7px ;
 	row-gap: 10px;
+	
 }
 .modal-gallery .modal-figure{
 	position: relative;
@@ -393,7 +398,7 @@ width: 100%;
 	display: grid;
 	place-items: center;
 }
-.modal-btn{
+.modal-gallery-btn{
 	border-style: none;
 	background-color:#1D6154;
 	border: 1px solid #1D6154;
@@ -412,6 +417,10 @@ width: 100%;
 	color:#d65353;
 }
 /* MODAL ADD PHOTO */
+#previous-arrow{
+	font-size: 18px;
+	cursor: pointer;
+}
 .add-image{
 	width: 80%;
 	height: 28%;
@@ -424,6 +433,23 @@ width: 100%;
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
+	position: relative;
+}
+.add-project-image {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #E8F1F6 ;
+}
+.add-project-image img{
+	object-fit: contain;
+	width: 100%;
+	height: 100%;
+
 }
 .fa-image{
 	color: #B9C5CC;
@@ -441,6 +467,7 @@ width: 100%;
 	border-radius: 60px;
 	padding: 10px 33px;
 	margin-bottom: 7px;
+	cursor: pointer;
 }
 .add-image-format{
 	color: #444;
@@ -456,24 +483,24 @@ width: 100%;
 	
 	
 }
-#uploadForm{
+#upload-form{
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	width: 80%;
 	
 }
-#uploadForm label{
+#upload-form label{
 	margin-bottom: 10px;
 	margin-top: 20px;
 }
-#uploadForm label{
+#upload-form label{
 	color: #3D3D3D;
 	font-size: 15px;
 	font-family: 'Work Sans', sans-serif;
 	font-weight: 600;
 }
-#uploadForm input, select{
+#upload-form input, select{
 	height: 50px;
 	border: none;
 	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
@@ -482,7 +509,7 @@ width: 100%;
 	color: #444444;
 	font-size: 15px;
 }
-#uploadForm select {
+#upload-form select {
 	cursor: pointer;
 	margin-bottom: 47px;
 }
