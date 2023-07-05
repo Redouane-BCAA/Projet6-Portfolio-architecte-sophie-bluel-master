@@ -92,7 +92,7 @@ function filters (works) {
     })
 }
 
-////////////////////Affichage mode editeur///////////////
+//********************* Partie Affichage mode editeur *************************//
 
 async function affichageEditeurMode() {
     const loginLink = document.querySelector(".login-link");
@@ -129,7 +129,7 @@ async function affichageEditeurMode() {
     }
 }
 
-//////////////////PARTIE MODAL///////////////////// 
+//********************* PARTIE MODAL *************************// 
 const modalLink = document.querySelector(".modal-link")
 
 const divGallery = document.querySelector(".gallery")
@@ -261,7 +261,7 @@ function sendPictureToAPI() {
     })
 }
 
-// affichage de la modale quand on click sur l'élément' qui a la classe modal-link
+// affichage de la modalegallery quand on click sur l'élément' qui a la classe modal-link
 modalLink.addEventListener("click", async (e) => {
     e.preventDefault()
     // e.stopPropagation()
@@ -272,7 +272,7 @@ modalLink.addEventListener("click", async (e) => {
 
 })
 
-// function pour la fermeture des la modal
+// function pour la fermeture des modals
 async function hideModal(){
     modal.style.display = "none";
     modalWrapperGallery.style.display = "block";
@@ -295,6 +295,7 @@ modalAddPhoto.addEventListener("click", (e)=>{
     e.stopPropagation()
 })
 
+
 ////////////////////////Debut MODAL ADDPHOTO//////////////////////////
 
 // Affichage de la modalAddphoto au click sur le galleryBTN
@@ -312,7 +313,7 @@ addImageButton.addEventListener("click", (e) =>{
     // Supprimer tout les input existant
     const inputFiles = document.querySelectorAll(".input-file");
     inputFiles.forEach((inputFile) => {
-        inputFile.parentNode.removeChild(inputFile);
+        inputFile.remove();
     });
 
     // création d'un input pour importer une image
