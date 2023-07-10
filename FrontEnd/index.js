@@ -1,6 +1,8 @@
+import {apiUrl} from "./api_url.js"
+
 // Appel travaux depuis API et le return "works" représente les travaux
 async function appelTravaux() {
-    const response = await fetch("http://localhost:5678/api/works")
+    const response = await fetch(apiUrl + "works")
     const works = await response.json()
     console.log(works)
     return works
@@ -31,63 +33,67 @@ function affichageTravaux(works) {
 }
 
 function filters (works) { 
-    // on récupère le nom des catégories depuis l'api dans la varible categoriesName
-    let categoriesName = works.map(works => works.category.name)
-    console.log(categoriesName)
-    
-    // on supprime les doublons avec set
-    let categories = [...new Set(categoriesName)]
-    console.log(categories)
-    
-    // Partie création des boutons filtres
-    const filtersContainer = document.querySelector(".filters-container")
+    // Modification - récupération des catégories dynamiquement + import apiurl
+    fetch(apiUrl + 'categories')
+    .then(response => response.json())
+    .then(categories => {
+        console.log(categories)
+        // Partie création des boutons filtres
+        const filtersContainer = document.querySelector(".filters-container")
 
-    // Button tous qui affichera tout les projets test + parent
-    const allbtn = document.createElement("button")
-    allbtn.innerText = "Tous"
-    // ajout class btn pour css plus tard
-    allbtn.classList.add("btn")
-    allbtn.classList.add("active")
-    filtersContainer.appendChild(allbtn)
+        // Button tous qui affichera tout les projets test + parent
+        const allbtn = document.createElement("button")
+        allbtn.innerText = "Tous"
+        // ajout class btn pour css plus tard
+        allbtn.classList.add("btn")
+        allbtn.classList.add("active")
+        filtersContainer.appendChild(allbtn)
 
 
-    // création des buttons dans une boucle en fonction des catégorie 
-    for (let i = 0; i < categories.length; i++) {
+        // Modification - création des buttons dans une boucle en fonction des catégorie 
+        categories.forEach(categorie =>  {
 
-        let categoriesBtn = document.createElement("button")
-        categoriesBtn.innerText = categories[i]
-        categoriesBtn.classList.add("btn")
-        filtersContainer.appendChild(categoriesBtn)
-    }
+            let categorieBtn = document.createElement("button")
+            categorieBtn.innerText = categorie.name
+            categorieBtn.classList.add("btn")
+            filtersContainer.appendChild(categorieBtn)
+        })
 
-    // partie qui permet le filtrage lors des selection des buttons
-    // On selectionne tout les boutons qui on la classe btn
-    const btns = document.querySelectorAll(".btn")
-    // on ajoute un event listener sur les boutons
-    btns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            // VIDEr LA GALERIE avant
-            const divGallery = document.querySelector(".gallery")
-            divGallery.innerHTML = "";
+        // partie qui permet le filtrage lors des selection des buttons
+        // On selectionne tout les boutons qui on la classe btn
+        const btns = document.querySelectorAll(".btn")
+        // on ajoute un event listener sur les boutons
+        btns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                // VIDEr LA GALERIE avant
+                const divGallery = document.querySelector(".gallery")
+                divGallery.innerHTML = "";
 
-            // test pour que le button reste en font vert une fois click
-            btns.forEach(btn => btn.classList.remove("active"))
-            btn.classList.add("active")
-            ////////////////////////////////////////////////////////////////////
+                // test pour que le button reste en font vert une fois click
+                btns.forEach(btn => btn.classList.remove("active"))
+                btn.classList.add("active")
+                ////////////////////////////////////////////////////////////////////
 
-            // on récupère le nom de la catégorie sélectionnée
-            let categorieFilter = btn.innerText
-            console.log(categorieFilter)
+                // on récupère le nom de la catégorie sélectionnée 
+                // à partir du texte du button
+                let categorieFilter = btn.innerText
+                console.log(categorieFilter)
 
-            // on récupère les projets qui correspondent à la catégorie sélectionnée
-            let filteredWorks = works.filter(works => works.category.name === categorieFilter)
-            console.log(filteredWorks)
+                // on récupère les projets qui correspondent à la catégorie sélectionnée
+                let filteredWorks = works.filter(works => works.category.name === categorieFilter)
+                console.log(filteredWorks)
 
-            if (categorieFilter === "Tous") {
-                filteredWorks = works;
-            }
-            // on affiche les projets correspondant à la catégorie sélectionnée
-            affichageTravaux(filteredWorks)
+
+                
+                // Si la catégorie sélectionnée est "Tous", 
+                //  la variable `filteredWorks` est réassignée avec tous les travaux (`works`), 
+                // afin d'afficher tous les projets dans la galerie.
+                if (categorieFilter === "Tous") {
+                    filteredWorks = works;
+                }
+                // on affiche les projets correspondant à la catégorie sélectionnée
+                affichageTravaux(filteredWorks)
+            })
         })
     })
 }
@@ -190,7 +196,8 @@ async function modalGalleryElement() {
 
 // Function qui supprime les élément en récuperant l'id
 function deleteProject(workId, modalFigure) {
-    fetch(`http://localhost:5678/api/works/${workId}`, {
+    // Modification fetch avec import apiurl
+    fetch(apiUrl + `works/${workId}`, {
         method: "DELETE",
         headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -230,23 +237,27 @@ function resetForm() {
 
 // Function requête post pour envoyé de nouveau travaux
 function sendPictureToAPI() {
+    // Récupération des valeurs du champ de titre, du champ de catégorie et du fichier sélectionné
     const title = document.getElementById("title").value;
     const category = document.getElementById("category").value;
-    const file = document.querySelector(".input-file").files[0]        
+    const file = document.querySelector(".input-file").files[0];       
     console.log(title, category, file)
 
+    // Vérification si le titre est vide ou si la catégorie est la valeur par défaut
     if (title.trim() === "" || category === "default") {
         alert("Veuillez remplir tous les champs et ajouter une image.");
         return;
     }
 
+    // Création d'un objet FormData pour stocker les données à envoyer dans la requête POST
     const formData = new FormData();
     formData.append("image", file);
     formData.append("title", title);
     formData.append("category", category);
 
     // Envoi de la requête POST à l'API
-    fetch("http://localhost:5678/api/works", {
+    // Modification fetch avec import apiurl
+    fetch(apiUrl + "works", {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`,      
@@ -325,8 +336,10 @@ addImageButton.addEventListener("click", (e) =>{
     input.accept = ".jpg, .png";
     uploadForm.appendChild(input)
     input.click();
-    // on affiche l'image importer via l'input
+
+    // événement "change" est déclenché sur l'input de téléchargement de fichier 
     input.addEventListener("change", () => {
+        // récupérer le fichier sélectionné en accédant à `input.files[0]`
         const file = input.files[0];
         console.log(file)
 
@@ -342,6 +355,7 @@ addImageButton.addEventListener("click", (e) =>{
         const inputCategory = document.getElementById("category");
         const modalAddBtn = document.querySelector(".modal-add-btn");
         
+        // on selectionne les input title 
         [inputTitle, inputCategory].forEach((inputchamp) =>{
             inputchamp.addEventListener("input", () => {
                 // on vérifie si les champs des input sont remplis
